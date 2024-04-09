@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        function findMin(numbers) {
+            let min = numbers[0];
+            let i = 1;
+            while (i < numbers.length) {
+                if (numbers[i] < min) {
+                    min = numbers[i];
+                }
+                i++;
+            }
+            return min;
+        }
+
+
+        function findMax(numbers) {
+            let max = numbers[0];
+            let i = 1;
+            while (i < numbers.length) {
+                if (numbers[i] > max) {
+                    max = numbers[i];
+                }
+                i++;
+            }
+            return max;
+        }
+
+
+        let numbers = [];
+
+
+        let i = 0;
+        while (i < 5) {
+            let input = parseInt(prompt(`Enter integer ${i + 1}:`));
+            numbers.push(input);
+            i++;
+        }
+
+
+        let min = findMin(numbers);
+        let max = findMax(numbers);
+
+        console.log(`Minimum value: ${min}`);
+        console.log(`Maximum value: ${max}`);
+    </script>
+</body>
+
+</html>

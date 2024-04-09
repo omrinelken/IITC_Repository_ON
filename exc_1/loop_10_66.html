@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        let number;
+        do {
+            number = parseInt(prompt("Enter a 3-digit integer:"));
+        } while (isNaN(number) || number < 100 || number > 999);
+
+
+        let digit;
+        let divisor = 100;
+        while (divisor >= 1) {
+            digit = Math.floor(number / divisor);
+            console.log(digit);
+            number %= divisor;
+            divisor /= 10;
+        }
+    </script>
+</body>
+
+</html>

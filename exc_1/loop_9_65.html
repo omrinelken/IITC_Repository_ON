@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let min;
+        let max;
+        let userInput;
+        do {
+            userInput = parseInt(prompt("Enter a positive integer:"));
+
+
+            if (userInput > 0) {
+
+                if (min === undefined || max === undefined) {
+                    min = userInput;
+                    max = userInput;
+                } else {
+
+                    if (userInput < min) {
+                        min = userInput;
+                    }
+                    if (userInput > max) {
+                        max = userInput;
+                    }
+                }
+            }
+        } while (userInput > 0);
+
+
+        console.log(`Minimal value: ${min}`);
+        console.log(`Maximal value: ${max}`);
+    </script>
+</body>
+
+</html>

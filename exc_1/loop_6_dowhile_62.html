@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        let min;
+        let max;
+
+        let i = 0;
+        do {
+            let input = parseInt(prompt(`Enter integer ${i + 1}:`));
+
+            if (i === 0) {
+                min = input;
+                max = input;
+            } else {
+                if (input < min) {
+                    min = input;
+                }
+                if (input > max) {
+                    max = input;
+                }
+            }
+
+            i++;
+        } while (i < 5);
+
+        console.log(`Minimal value: ${min}`);
+        console.log(`Maximal value: ${max}`);
+    </script>
+</body>
+
+</html>

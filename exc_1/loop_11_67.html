@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Function to generate a random number between 0 and 99
+        function generateRandomNumber() {
+            return Math.floor(Math.random() * 100);
+        }
+
+        // Function to play the game
+        function playGame() {
+            // Generate the secret random number
+            const secretNumber = generateRandomNumber();
+
+            // Initialize variables
+            let guess;
+            let attempts = 0;
+            let startTime, endTime;
+
+            // Start the timer
+            startTime = new Date();
+
+            // Loop until the user guesses the correct number
+            do {
+                // Get input from the user
+                guess = parseInt(prompt("Guess the secret number (between 0 and 99):"));
+
+                // Validate the input
+                if (isNaN(guess) || guess < 0 || guess > 99) {
+                    alert("Invalid input. Please enter a number between 0 and 99.");
+                    continue;
+                }
+
+                // Increment the number of attempts
+                attempts++;
+
+                // Provide feedback to the user
+                if (guess < secretNumber) {
+                    alert("Too low! Try a higher number.");
+                } else if (guess > secretNumber) {
+                    alert("Too high! Try a lower number.");
+                }
+            } while (guess !== secretNumber);
+
+            // End the timer
+            endTime = new Date();
+
+            // Calculate the time taken to play the game
+            const timeTaken = (endTime - startTime) / 1000; // Time in seconds
+
+            // Display the result
+            alert(`Congratulations! You guessed the secret number ${secretNumber} correctly in ${attempts} attempts.`);
+            alert(`Time taken: ${timeTaken} seconds.`);
+        }
+
+        // Start the game
+        playGame();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // set variables
+        let board;
+        let currentPlayer;
+        let player1Name;
+        let player2Name;
+        let player1Symbol;
+        let player2Symbol;
+        let gameOver;
+
+        // Function to initialize the game
+        function initializeGame() {
+            // Initialize the board
+            board = [
+                [' ', ' ', ' '],
+                [' ', ' ', ' '],
+                [' ', ' ', ' ']
+            ];
+
+            // userinput- player names and symbols
+            player1Name = prompt("Enter Player 1's name:");
+            player1Symbol = prompt(`${player1Name}, choose your symbol (X or O):`).toUpperCase();
+            player2Name = prompt("Enter Player 2's name:");
+            player2Symbol = (player1Symbol === 'X') ? 'O' : 'X'; // Assign the other symbol to player 2
+
+            // Initialize currentPlayer to player 1
+            currentPlayer = player1Name;
+
+            // Initialize gameOver flag
+            gameOver = false;
+
+            // Start the game
+            startGame();
+        }
+
+        // Function to display the board
+        function displayBoard() {
+            console.log('\n  0 1 2');
+            for (let i = 0; i < 3; i++) {
+                let row = `${i} `;
+                for (let j = 0; j < 3; j++) {
+                    row += `${board[i][j]} `;
+                }
+                console.log(row);
+            }
+        }
+
+        // Function to get player's move
+        function getPlayerMove() {
+            let rowIndex = parseInt(prompt(`${currentPlayer}, enter row index (0, 1, or 2):`));
+            let colIndex = parseInt(prompt(`${currentPlayer}, enter column index (0, 1, or 2):`));
+            return [rowIndex, colIndex];
+        }
+
+        // Function to validate player's move
+        function validateMove(row, col) {
+            if (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] !== ' ') {
+                alert("Invalid move! Please choose an empty cell within the board range.");
+                return false;
+            }
+            return true;
+        }
+
+        // Function to check for a winner
+        function checkForWinner() {
+            // Check rows, columns, and diagonals for three in a row
+            for (let i = 0; i < 3; i++) {
+                if (board[i][0] !== ' ' && board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
+                    return board[i][0]; // Return the winning symbol
+                }
+                if (board[0][i] !== ' ' && board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
+                    return board[0][i]; // Return the winning symbol
+                }
+            }
+            if (board[0][0] !== ' ' && board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+                return board[0][0]; // Return the winning symbol
+            }
+            if (board[0][2] !== ' ' && board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
+                return board[0][2]; // Return the winning symbol
+            }
+
+            // No winner yet
+            return null;
+        }
+
+        // Function to check for a tie
+        function checkForTie() {
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    if (board[i][j] === ' ') {
+                        return false; // At least one empty cell found, game is not tied yet
+                    }
+                }
+            }
+            return true; // No empty cells found, game is tied
+        }
+
+        // Function to announce the winner or declare a tie
+        function announceWinner(winner) {
+            if (winner) {
+                console.log(`Congratulations ${winner}! You won the game.`);
+            } else {
+                console.log("It's a tie!");
+            }
+        }
+
+        // Function to start the game
+        function startGame() {
+            while (!gameOver) {
+                displayBoard();
+                let [row, col] = getPlayerMove();
+                if (validateMove(row, col)) {
+                    board[row][col] = (currentPlayer === player1Name) ? player1Symbol : player2Symbol;
+                    let winner = checkForWinner();
+                    if (winner || checkForTie()) {
+                        displayBoard();
+                        announceWinner(winner);
+                        gameOver = true;
+                    } else {
+                        currentPlayer = (currentPlayer === player1Name) ? player2Name : player1Name;
+                    }
+                }
+            }
+        }
+
+        // Start the game
+        initializeGame();
+    </script>
+</body>
+
+</html>

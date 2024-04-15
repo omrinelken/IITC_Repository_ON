@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function updateBookPages(booksArray, bookName, newPages) {
+            const bookIndex = booksArray.findIndex(book => book.name === bookName);
+
+            if (bookIndex !== -1) {
+                booksArray[bookIndex].pages = newPages;
+                return booksArray[bookIndex];
+            }
+
+            return null;
+        }
+
+        const books = [
+            { name: "Book A", pages: 200 },
+            { name: "Book B", pages: 350 },
+            { name: "Book C", pages: 150 }
+        ];
+
+        const bookToUpdate = "Book B";
+        const newPages = 400;
+        const updatedBook = updateBookPages(books, bookToUpdate, newPages);
+
+        if (updatedBook) {
+            console.log(`Book "${bookToUpdate}" updated:`, updatedBook);
+        } else {
+            console.log(`Book "${bookToUpdate}" not found.`);
+        }
+
+        console.log("Updated Array of Books:");
+        console.log(books);
+    </script>
+</body>
+
+</html>

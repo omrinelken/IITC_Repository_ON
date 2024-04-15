@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Function to get a book from the array by name
+        function getBook(booksArray, bookName) {
+            // Use the find method to search for the book by name
+            const foundBook = booksArray.find(book => book.name === bookName);
+
+            // If book found, return it, otherwise return null
+            return foundBook || null;
+        }
+
+        // Array of books
+        const books = [
+            { name: "Book A", pages: 200 },
+            { name: "Book B", pages: 350 },
+            { name: "Book C", pages: 150 }
+        ];
+
+        // Call the getBook function
+        const bookToFind = "Book B";
+        const foundBook = getBook(books, bookToFind);
+
+        // Print the result
+        if (foundBook) {
+            console.log(`Book "${bookToFind}" found:`, foundBook);
+        } else {
+            console.log(`Book "${bookToFind}" not found.`);
+        }
+    </script>
+</body>
+
+</html>

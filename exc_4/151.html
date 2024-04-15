@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function deleteBook(booksArray, bookName) {
+            const bookIndex = booksArray.findIndex(book => book.name === bookName);
+
+            // If book found, delete it from the array and return true
+            if (bookIndex !== -1) {
+                booksArray.splice(bookIndex, 1);
+                return true;
+            }
+
+            // If book not found, return false
+            return false;
+        }
+
+        const books = [
+            { name: "Book A", pages: 200 },
+            { name: "Book B", pages: 350 },
+            { name: "Book C", pages: 150 }
+        ];
+
+        const bookToDelete = "Book B";
+        const deletionResult = deleteBook(books, bookToDelete);
+
+        if (deletionResult) {
+            console.log(`Book "${bookToDelete}" deleted successfully.`);
+        } else {
+            console.log(`Book "${bookToDelete}" not found.`);
+        }
+
+        console.log("Updated Array of Books:");
+        console.log(books);
+    </script>
+</body>
+
+</html>

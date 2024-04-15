@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Function to add a book to the array
+        function addBook(booksArray, bookName, pageCount) {
+            // Create a new book object
+            const newBook = { name: bookName, pages: pageCount };
+
+            // Add the new book to the array
+            booksArray.push(newBook);
+        }
+
+        // Array of books
+        const books = [
+            { name: "Book A", pages: 100 },
+            { name: "Book B", pages: 200 },
+            { name: "Book C", pages: 300 }
+        ];
+
+        // Call the addBook function
+        addBook(books, "Book D", 400);
+
+        // Print the updated array of books
+        console.log("Updated Array of Books:");
+        console.log(books);
+    </script>
+</body>
+
+</html>

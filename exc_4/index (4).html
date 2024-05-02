@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        ////array 0.5
+        let sum = 0;
+        let arr = [5, 3, 7, 8, 11];
+        function add(array) {
+            for (let num of array) {
+                sum += num;
+            }
+            return sum;
+        }
+        console.log(add(arr));
+
+        ////array_1_m
+        //let arr = [];
+        //function add() {
+        //  for (let i = 1; i <= 100; i++) {
+        //    arr.push(i);
+        //  }
+        //  return arr;
+        //}
+        //console.log(add());
+
+        //array_2_m
+        //let arr = [];
+        //let sum = 0;
+        //for (let i = 0; i < 5; i++) {
+        //  let num = Math.floor(Math.random() * 99 + 1);
+        //  while (true) {
+        //    if (!arr.includes(num)) {
+        //      arr[i] = num;
+        //      break;
+        //    }
+        //  }
+        //  sum += arr[i];
+        //}
+        //console.log(arr);
+        //console.log(`sum: ${sum}, avg: ${sum / 5}`);
+
+        //array_2.5
+        //let arr1 = [3, 5, 6, 4, 32, 5];
+        //let num1 = 4;
+        //function attendence(array, num) {
+        //  if (array.includes(num)) {
+        //    return true;
+        //  } else {
+        //    return false;
+        //  }
+        //}
+        //console.log(attendence(arr1, num1));
+        //console.log(attendence(arr1, 56));
+
+        ////array_2.7
+        //let arr1 = [1, 5, 8, 6];
+        //let arr2 = [5, 8, 2, 6];
+        //let countDup = 0;
+        //function sameNum(array, array1) {
+        //  for (let i of array) {
+        //    if (array1.includes(i)) {
+        //      countDup++;
+        //    }
+        //  }
+        //  return countDup;
+        //}
+        //console.log(sameNum(arr1, arr2));
+
+        //array_operation_0
+        //let obj = [
+        //  { name: "book1", pages: 100 },
+        //  { name: "book2", pages: 200 },
+        //  { name: "book3", pages: 300 },
+        //  { name: "book4", pages: 400 },
+        //  { name: "book5", pages: 500 },
+        //];
+        //
+        //for (let i of obj) {
+        //  console.log(i);
+        //}
+
+        //array_operation_1
+        //let books = [
+        //  { name: "book1", pages: 100 },
+        //  { name: "book2", pages: 200 },
+        //  { name: "book3", pages: 300 },
+        //  { name: "book4", pages: 400 },
+        //  { name: "book5", pages: 500 },
+        //];
+        //function addBook(array, bookName, bookPages) {
+        //  array.push({ name: bookName, pages: bookPages });
+        //}
+        //addBook(books, "book6", 600);
+        //console.log(books);
+
+        //array_operation_2
+        //let books = [
+        //  { name: "book1", pages: 100 },
+        //  { name: "book2", pages: 200 },
+        //  { name: "book3", pages: 300 },
+        //  { name: "book4", pages: 400 },
+        //  { name: "book5", pages: 500 },
+        //];
+        //
+        //function getBook(array, bookName) {
+        //  for (let i = 0; i < array.length; i++) {
+        //    if (array[i].name === bookName) {
+        //      return array[i];
+        //    }
+        //  }
+        //  return null;
+        //}
+        //console.log(getBook(books, "book1"));
+        //console.log(getBook(books, "book9"));
+
+        //array_operation_3
+        //let books = [
+        //  { name: "book1", pages: 100 },
+        //  { name: "book2", pages: 200 },
+        //  { name: "book3", pages: 300 },
+        //  { name: "book4", pages: 400 },
+        //  { name: "book5", pages: 500 },
+        //];
+        //
+        //function updateBooksPages(array, bookName, bookPages) {
+        //  for (let i = 0; i < array.length; i++) {
+        //    if (array[i].name === bookName) {
+        //      array[i].pages = bookPages;
+        //      return array[i];
+        //    }
+        //  }
+        //  return null;
+        //}
+        //console.log(updateBooksPages(books, "book5", 6876));
+        //console.log(updateBooksPages(books, "book8", 6876));
+
+        //array_operation_4
+        //let books = [
+        //  { name: "book1", pages: 100 },
+        //  { name: "book2", pages: 200 },
+        //  { name: "book3", pages: 300 },
+        //  { name: "book4", pages: 400 },
+        //  { name: "book5", pages: 500 },
+        //];
+        //
+        //function deleteBook(array, bookName) {
+        //  for (let i = 0; i < array.length; i++) {
+        //    if (array[i].name === bookName) {
+        //      array.splice(i, 1);
+        //      return true;
+        //    }
+        //  }
+        //  return false;
+        //}
+        //console.log(deleteBook(books, "book1"));
+        //console.log(deleteBook(books, "book9"));
+        //console.log(deleteBook(books, "book2"));
+
+        //array_operation_5
+        //const arr = [1, 2, 3, 4];
+        //function increment(num) {
+        //for (let i of arr) {
+        //if (arr[i] === num) {
+        //arr[i]++;
+        //return arr;
+        //}
+        //}
+        //return `${num} is not in the array`;
+        //}
+        //console.log(increment(5));
+        //console.log(increment(3));
+    </script>
+</body>
+
+</html>

@@ -10,27 +10,27 @@
 <body>
     <h2>Increment Array Element</h2>
 
-    <p>Enter a number to search for in the array:</p>
-    <input type="number" id="inputNumber">
-    <button onclick="searchAndUpdate()">Search and Update</button>
+<p>Enter a number to search for in the array:</p>
+<input type="number" id="inputNumber">
+<button onclick="searchAndUpdate()">Search and Update</button>
 
-    <p id="result"></p>
+<p id="result"></p>
     <script>
-        const numbersArray = [5, 10, 15, 20];
+const numbersArray = [5, 10, 15, 20];
 
-        function searchAndUpdate() {
-            const inputValue = parseInt(document.getElementById("inputNumber").value);
+function searchAndUpdate() {
+    const inputValue = parseInt(document.getElementById("inputNumber").value);
 
-            const index = numbersArray.indexOf(inputValue);
+    const index = numbersArray.indexOf(inputValue);
 
-            if (index !== -1) {
-                numbersArray[index] += 1;
+    if (index !== -1) {
+        numbersArray[index] += 1;
 
-                document.getElementById("result").innerHTML = "Number found and updated: " + numbersArray.join(", ");
-            } else {
-                document.getElementById("result").innerHTML = "Number not found: " + inputValue;
-            }
-        }
+        document.getElementById("result").innerHTML = "Number found and updated: " + numbersArray.join(", ");
+    } else {
+        document.getElementById("result").innerHTML = "Number not found: " + inputValue;
+    }
+}
     </script>
 </body>
 

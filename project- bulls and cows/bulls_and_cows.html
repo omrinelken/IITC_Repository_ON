@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulls and Cows</title>
+    <link rel="stylesheet" href="bulls_and_cows_styling.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bulls and Cows</h1>
+        <p>Try to guess the 4-digit number!</p>
+        <input type="text" id="guessInput" placeholder="Enter your guess">
+        <button onclick="checkGuess()">Check</button>
+        <button onclick="showSecret()">Show Secret Number</button>
+        <div id="result"></div>
+        <div id="previousAttempts"></div>
+    </div>
+    <script src="bulls_and_cows.js"></script>
+</body>
+
+</html>

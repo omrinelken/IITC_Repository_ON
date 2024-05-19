@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="styling_budget_project.css" />
+  </head>
+
+  <body>
+    <div class="container_header"></div>
+
+    <div class="container_general_data">
+      <div class="date-balance-income-outcome-section">
+        <div><h3>Available Budget In April 2024</h3></div>
+        <h1 id="balance">+1302.50</h1>
+        <div class="container_income container-transactions">
+          <h2>INCOME</h2>
+          <p id="total-income">2500</p>
+        </div>
+        <div class="container_expenses container-transactions">
+          <h2>EXPENCES</h2>
+          <p id="total-expense">1700</p>
+        </div>
+      </div>
+      <div class="gen_income"></div>
+      <div class="gen_expenses"></div>
+    </div>
+
+    <div class="container_data_entry">
+      <div class="plus_minus">
+        <select id="type">
+          <option value="income">+</option>
+          <option value="expense">-</option>
+        </select>
+      </div>
+      <div class="description_feed">
+        <input type="text" id="description" placeholder="add description" />
+      </div>
+      <div class="value_feed">
+        <input type="text" id="amount" placeholder="value" />
+      </div>
+      <!-- <button id="submitInputButton" class="submit_button">submit</button> -->
+      <i id="submitInputButton" class="fa-regular fa-circle-check"></i>
+    </div>
+
+    <div class="container-display-transactions">
+      <div class="container_detailed_data">
+        <div class="income_data">
+          <h3>INCOME</h3>
+
+          <div class="income-items"></div>
+        </div>
+        <div class="expenses_data">
+          <h3>EXPENCES</h3>
+          <div class="expense-items"></div>
+
+          <!-- <ul id="expenseList">
+            <li>
+              <p class="transaction-description">fly</p>
+              <p class="income-transaction transaction">90</p>
+              <p class="percentage" class="income-transaction transaction">
+                5%
+              </p>
+            </li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const incomesArrayKey = 'arrayIncomes-key';
+      const expensesArraykey = 'arrayExpenses-key';
+      let incomesArray = [];
+      let expensesArray = [];
+      const elemSubmitButton = document.querySelector('#submitInputButton');
+      elemSubmitButton.addEventListener('click', submitInputButton);
+
+      if (
+        localStorage.getItem(incomesArrayKey) == null ||
+        localStorage.getItem(expensesArraykey) == null
+      ) {
+        incomesArray = [];
+        expensesArray = [];
+      } else {
+        const arrayIncomeFromLoclalStorage =
+          localStorage.getItem(incomesArrayKey);
+        const arrayExpensesFromLoclalStorage =
+          localStorage.getItem(expensesArraykey);
+        incomesArray = JSON.parse(arrayIncomesFromLoclalStorage);
+        expensesArray = JSON.parse(arrayExpensesFromLoclalStorage);
+      }
+
+      function saveToLocalStorage() {
+        const incomesArrayJson = JSON.stringify(incomesArray);
+        const expensesArrayJason = JSON.stringify(expensesArray);
+        localStorage.setItem(incomesArrayKey, incomesArrayJson);
+        localStorage.setItem(expensesArraykey, expensesArrayJason);
+      }
+
+      // check if is number and posetive number
+      function isValidValue(value) {
+        if (isNaN(value) || value <= 0) {
+          return false;
+        } else {
+          return true;
+        }
+      }
+
+      function putInObject(description, value) {
+        const objOfTraffic = {
+          trasactionDescription: description,
+          trasactionValue: value,
+        };
+        return objOfTraffic;
+      }
+
+      function transactionToArray(expenseOrIncome, currentTransactionObject) {
+        // console.log(expenseOrIncome, currentTransactionObject);
+        if (expenseOrIncome == 'income') {
+          incomesArray.push(currentTransactionObject);
+          console.log(incomesArray);
+        }
+        if (expenseOrIncome == 'expense') {
+          expensesArray.push(currentTransactionObject);
+          console.log(expensesArray);
+        }
+      }
+
+      //expenseOrIncome, description,
+      function getUserInput(expenseOrIncome, description, value) {
+        if (!isValidValue(value)) {
+          return;
+        }
+        return [expenseOrIncome, description, value];
+      }
+
+      function submitInputButton() {
+        const inputs = getUserInput(
+          getIsExpenseOrIncome(),
+          getTransactionDescription(),
+          getValue()
+        );
+        console.log(inputs);
+        const currentExpenseOrIncome = inputs[0];
+        const currentDescription = inputs[1];
+        const currentValue = inputs[2];
+        const currentTransactionObject = putInObject(
+          currentDescription,
+          currentValue
+        );
+        transactionToArray(currentExpenseOrIncome, currentTransactionObject);
+        const currentsumIncomes = sumOfArray(incomesArray);
+        const currentsumExpenses = sumOfArray(expensesArray);
+        const currentBalance = balance(currentsumIncomes, currentsumExpenses);
+
+        DisplayData(
+          currentExpenseOrIncome,
+          currentDescription,
+          currentValue,
+          currentsumIncomes,
+          currentsumExpenses,
+          currentBalance
+          //current persentage if is expense
+        );
+        //return expenseOrIncome, description value, sumExpenses, sumIncomes, balance, presentege
+      }
+
+      // dom function get input income or expense
+      function getIsExpenseOrIncome() {
+        return document.querySelector('#type').value;
+      }
+
+      //dom function get descreption
+      function getTransactionDescription() {
+        return document.querySelector('#description').value;
+      }
+
+      //dom function get value
+      function getValue() {
+        return Number(document.querySelector('#amount').value);
+      }
+
+      //   function percentage(specific_expense_value, totalincome) {
+      //     let percent = (specific_expense_value / totalincome) * 100;
+      //     return percent;
+      //   }
+      //   const spec_percent = percentage(specific_expense_value, totalincome);
+      //   console.log(spec_percent);
+
+      function sumOfArray(array) {
+        let sum = 0;
+        for (let i = 0; i < array.length; i++) {
+          sum += array[i].trasactionValue;
+        }
+        return sum;
+      }
+
+      function balance(sumIncomes, sumExpenses) {
+        let balance = sumIncomes - sumExpenses;
+        return balance;
+      }
+
+      function DisplayData(
+        currentExpenseOrIncome,
+        currentDescription,
+        currentValue,
+        currentsumIncomes,
+        currentsumExpenses,
+        currentBalance
+      ) {
+        // console.log(incomesArray);
+        const elemBalance = document.querySelector('#balance');
+        const elemIncomesSum = document.querySelector('#total-income');
+        const elemExpensesSum = document.querySelector('#total-expense');
+        elemBalance.innerHTML = floatFixTWO(currentBalance);
+        elemIncomesSum.innerText = floatFixTWO(currentsumIncomes);
+        elemExpensesSum.innerText = floatFixTWO(-1 * currentsumExpenses);
+
+        addTransaction(
+          currentExpenseOrIncome,
+          currentDescription,
+          currentValue,
+          currentsumExpenses
+        );
+      }
+
+      function addTransaction(
+        currentExpenseOrIncome,
+        currentDescription,
+        currentValue,
+        currentsumExpenses
+      ) {
+        // console.log(incomesArray);
+        const elemincome = document.querySelector('.income-items');
+        const elemExpense = document.querySelector('.expense-items');
+
+        if (currentExpenseOrIncome == 'income') {
+          elemincome.innerHTML += `  <div data-index="${
+            incomesArray.length - 1
+          }" class="income-item">
+              <div class="income-left">
+                <p class="transaction-description">${currentDescription}</p>
+              </div>
+              <div class="income-right">
+                <p class="income-transaction transaction">${floatFixTWO(
+                  currentValue
+                )}</p>
+                <div class="removeBtn"><i  class="fa-regular fa-circle-xmark remove-button add-red"></i></div>
+              </div>
+            </div>`;
+
+          // `<li>
+          //           <p class="transaction-description">${currentDescription}</p>
+          //           <p class="expense-transaction transaction">${floatFixTWO(
+          //             currentValue
+          //           )}</p>
+          //         </li>`;
+        } else if (currentExpenseOrIncome == 'expense') {
+          elemExpense.innerHTML += `  <div data-index="${
+            incomesArray.length - 1
+          }" class="expense-item">
+              <div class="expense-left">
+                <p class="transaction-description">${currentDescription}</p>
+              </div>
+              <div class="expense-right">
+                <p class="income-transaction transaction">${floatFixTWO(
+                  currentValue
+                )}</p>
+                <p class="percentage" class="expense-transaction transaction">
+                  5%
+                </p>
+                <div class="removeBtn"><i class="fa-regular fa-circle-xmark remove-button add-red"></i></div>
+              </div>
+            </div>`;
+        }
+        calculatePercentage();
+        console.log(incomesArray);
+        elemincome.addEventListener('click', (e) => {
+          // console.log(incomesArray);
+          if (e.target.parentNode.classList.contains('removeBtn')) {
+            // console.log(incomesArray);
+            const itemToRemove = e.target.parentNode.parentNode.parentNode;
+            // console.log(itemToRemove);
+            const indexToRemove = parseInt(itemToRemove.dataset.index);
+            itemToRemove.remove();
+            // console.log(incomesArray);
+            console.log(indexToRemove);
+            console.log(incomesArray);
+            incomesArray.slice(indexToRemove, 1);
+            console.log(incomesArray);
+          }
+        });
+      }
+      //   elemExpense.addEventListener('click', (e) => {
+      //     if (e.target.parentNode.classList.contains('removeBtn')) {
+      //       e.target.parentNode.parentNode.parentNode.remove();
+      //     }
+      //   });
+      // }
+
+      function calculatePercentage() {
+        const elemlistExpenses = document.querySelectorAll('.percentage');
+        // console.log(elemlistExpenses);
+        elemlistExpenses.forEach((element, index) => {
+          const percent =
+            (expensesArray[index].trasactionValue / sumOfArray(incomesArray)) *
+            100;
+          element.innerText = floatFixTWO(percent) + '%';
+
+          // Number.parseFloat(x).toFixed(2);
+        });
+      }
+      // Number.parseFloat(percent).toFixed(2);
+      function floatFixTWO(number) {
+        return Number.parseFloat(number).toFixed(2);
+      }
+
+      // isExpenseOrIncome(expenseOrIncome)
+      // function createTransactionElment(
+      //   isExpenseOrIncome,
+      //   currentTransactionObject
+      // ) {
+      //   if (isExpenseOrIncome == 'income') {
+      //     const elemDiv = document.createElement('div');
+      //     const elemDescription = document.createElement('p');
+      //     const elemValue = document.createElement('p');
+      //     elemDescription.innerText = currentTransactionObject.description;
+      //     elemValue.innerText = currentTransactionObject. TrasactionValues;
+      //     elemDiv.appendChild(elemDescription);
+      //     elemDiv.appendChild(elemValue);
+      //     document.querySelector('#incomeList').appendChild(elemDiv);
+      //   } else if (isExpenseOrIncome == 'expense') {
+      //     const elemDiv = document.createElement('div');
+      //     const elemDescription = document.createElement('p');
+      //     const elemValue = document.createElement('p');
+      //     elemDescription.innerText = currentTransactionObject.description;
+      //     elemValue.innerText = -1 * currentTransactionObject. TrasactionValues;
+      //     elemDiv.appendChild(elemDescription);
+      //     elemDiv.appendChild(elemValue);
+      //     document.querySelector('#expensesList').appendChild(elemDiv);
+      //   }
+      // }
+
+      // remove item function
+      //check if the parent element is incomes or expenses and
+      //than use this information to delet the elment object from the right array
+
+      // why not to save infromation like balance and the sums for local storage?
+
+      // change value on selct +/- to expense and income
+
+      //use focus and blur outlineStyle
+    </script>
+  </body>
+</html>

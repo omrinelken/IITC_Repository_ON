@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style2.css">
+
+</head>
+<body>
+    <button id="startSortButton">Start Sorting</button>
+    <ul id="arrayList"></ul>
+
+    <script>
+        let array = [34, 7, 23, 32, 5, 62];
+        let intervalId;
+        let currentIndex = 0;
+
+        function updateDOM() {
+            const list = document.getElementById('arrayList');
+            list.innerHTML = ''; // Clear previous list items
+            array.forEach(num => {
+                const listItem = document.createElement('li');
+                listItem.textContent = num;
+                list.appendChild(listItem);
+            });
+        }
+
+        function sortStep() {
+            if (currentIndex >= array.length - 1) {
+                clearInterval(intervalId);
+                return;
+            }
+
+            for (let j = 0; j < array.length - currentIndex - 1; j++) {
+                if (array[j] > array[j + 1]) {
+                    // Swap
+                    let temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                }
+            }
+            currentIndex++;
+            updateDOM();
+        }
+
+        document.getElementById('startSortButton').addEventListener('click', function() {
+            currentIndex = 0; // Reset the index for a new sort
+            clearInterval(intervalId); // Clear any existing interval
+            updateDOM(); // Initial display before sorting starts
+            intervalId = setInterval(sortStep, 1000);
+        });
+
+        updateDOM(); // Initial display of the unsorted array
+    </script>
+</body>
+</html>

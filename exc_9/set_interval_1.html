@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+    <button id="startButton">Start</button>
+    <button id="stopButton">Stop</button>
+    <p id="timer">0 seconds</p>
+
+    <script>
+        let intervalId;
+        let startTime;
+
+        document.getElementById('startButton').addEventListener('click', function () {
+            if (intervalId) {
+                clearInterval(intervalId);
+            }
+            startTime = Date.now();
+            intervalId = setInterval(updateTimer, 1000);
+        });
+
+        document.getElementById('stopButton').addEventListener('click', function () {
+            clearInterval(intervalId);
+        });
+
+        function updateTimer() {
+            const currentTime = Date.now();
+            const elapsedSeconds = Math.floor((currentTime - startTime) / 1000);
+            document.getElementById('timer').textContent = `${elapsedSeconds} seconds`;
+        }
+    </script>
+</body>
+</body>
+
+</html>

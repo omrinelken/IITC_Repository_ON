@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+
+<body>
+    <h1>Check the Console in 5 Seconds!</h1>
+
+    <script>
+        function writeHelloWorld() {
+            console.log("Hello, World!");
+        }
+
+        window.onload = function () {
+            setTimeout(function () {
+                setInterval(writeHelloWorld, 5000);
+            }, 5000);
+        };
+    </script>
+</body>
+
+</html>

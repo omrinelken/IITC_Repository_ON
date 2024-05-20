@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function fetchData() {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve("data fetched");
+                }, 2000); // Resolving after 2 seconds
+            });
+        }
+        fetchData()
+            .then(data => {
+                console.log(data); // This will log "data fetched" after 2 seconds
+            })
+            .catch(error => {
+                console.error(error); // This will log any error if the Promise is rejected
+            });
+    </script>
+</body>
+
+</html>

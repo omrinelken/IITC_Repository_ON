@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Promise Example</h1>
+    <button id="successButton">Activate Success</button>
+    <button id="failureButton">Activate Failure</button>
+    <div id="output"></div>
+
+    <script>
+        function activatePromise(isSuccess) {
+            return new Promise((resolve, reject) => {
+                if (isSuccess) {
+                    setTimeout(() => {
+                        resolve("success");
+                    }, 2000);
+                } else {
+                    setTimeout(() => {
+                        reject("failure");
+                    }, 3000);
+                }
+            });
+        }
+
+        document.getElementById("successButton").addEventListener("click", function () {
+            activatePromise(true)
+                .then(result => {
+                    document.getElementById("output").innerText = result;
+                })
+                .catch(error => {
+                    document.getElementById("output").innerText = error;
+                });
+        });
+
+        document.getElementById("failureButton").addEventListener("click", function () {
+            activatePromise(false)
+                .then(result => {
+                    document.getElementById("output").innerText = result;
+                })
+                .catch(error => {
+                    document.getElementById("output").innerText = error;
+                });
+        });
+    </script>
+</body>
+
+</html>

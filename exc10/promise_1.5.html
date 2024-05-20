@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #progressContainer {
+            width: 300px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            padding: 5px;
+        }
+
+        #progressBar {
+            width: 0%;
+            height: 20px;
+            background-color: #4CAF50;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Progress Bar Example</h1>
+    <button id="startButton">Start Progress</button>
+    <div id="progressContainer">
+        <div id="progressBar"></div>
+    </div>
+
+    <script>
+        function startProgress() {
+            return new Promise((resolve, reject) => {
+                let width = 0;
+                const progressBar = document.getElementById("progressBar");
+                const intervalId = setInterval(() => {
+                    width += 5; // Increase width by 5% every 100 milliseconds
+                    progressBar.style.width = width + "%";
+                    if (width >= 100) {
+                        clearInterval(intervalId);
+                        resolve();
+                    }
+                }, 100);
+            });
+        }
+
+        document.getElementById("startButton").addEventListener("click", function () {
+            startProgress()
+                .then(() => {
+                    console.log("Progress complete!");
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
+        });
+    </script>
+</body>
+
+</html>

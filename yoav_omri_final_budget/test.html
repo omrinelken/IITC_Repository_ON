@@ -1,0 +1,143 @@
+document.addEventListener('DOMContentLoaded', () => { const incomesArrayKey =
+'arrayIncomes-key'; const expensesArrayKey = 'arrayExpenses-key'; let
+incomesArray = []; let expensesArray = []; const elemSubmitButton =
+document.querySelector('#submitInputButton');
+elemSubmitButton.addEventListener('click', submitInputButton); if
+(localStorage.getItem(incomesArrayKey) == null ||
+localStorage.getItem(expensesArrayKey) == null) { incomesArray = [];
+expensesArray = []; } else { const arrayIncomeFromLocalStorage =
+localStorage.getItem(incomesArrayKey); const arrayExpensesFromLocalStorage =
+localStorage.getItem(expensesArrayKey); incomesArray =
+JSON.parse(arrayIncomeFromLocalStorage); expensesArray =
+JSON.parse(arrayExpensesFromLocalStorage); } initialFromArrays();
+updateDateHeader(); toggleMode();
+document.querySelector('#type').addEventListener('change', toggleMode);
+document.querySelector('.income-items').addEventListener('click',
+handleIncomeRemove);
+document.querySelector('.expense-items').addEventListener('click',
+handleExpenseRemove); function initialFromArrays() { const sumIncomes =
+sumOfArray(incomesArray); const sumExpenses = sumOfArray(expensesArray); const
+balanceData = balance(sumIncomes, sumExpenses); incomesArray.forEach((element)
+=> { displayData('income', element.trasactionDescription,
+element.trasactionValue, sumIncomes, sumExpenses, balanceData); });
+expensesArray.forEach((element) => { displayData('expense',
+element.trasactionDescription, element.trasactionValue, sumIncomes, sumExpenses,
+balanceData); }); } function submitInputButton() { const inputs =
+getUserInput(getIsExpenseOrIncome(), getTransactionDescription(), getValue());
+if (!inputs) return; const currentExpenseOrIncome = inputs[0]; const
+currentDescription = inputs[1]; const currentValue = inputs[2]; const
+currentTransactionObject = putInObject(currentDescription, currentValue);
+transactionToArray(currentExpenseOrIncome, currentTransactionObject); const
+currentSumIncomes = sumOfArray(incomesArray); const currentSumExpenses =
+sumOfArray(expensesArray); const currentBalance = balance(currentSumIncomes,
+currentSumExpenses); displayData(currentExpenseOrIncome, currentDescription,
+currentValue, currentSumIncomes, currentSumExpenses, currentBalance);
+saveToLocalStorage(); } function getUserInput(expenseOrIncome, description,
+value) { if (!isValidValue(value)) { return null; } return [expenseOrIncome,
+description, value]; } function getIsExpenseOrIncome() { return
+document.querySelector('#type').value; } function getTransactionDescription() {
+return document.querySelector('#description').value; } function getValue() {
+return Number(document.querySelector('#amount').value); } function
+isValidValue(value) { return !(isNaN(value) || value <= 0); } function
+putInObject(description, value) { return { trasactionDescription: description,
+trasactionValue: value, }; } function transactionToArray(expenseOrIncome,
+currentTransactionObject) { if (expenseOrIncome === 'income') {
+incomesArray.push(currentTransactionObject); } else if (expenseOrIncome ===
+'expense') { expensesArray.push(currentTransactionObject); } } function
+sumOfArray(array) { return array.reduce((sum, element) => sum +
+element.trasactionValue, 0); } function balance(sumIncomes, sumExpenses) {
+return sumIncomes - sumExpenses; } function displayData(currentExpenseOrIncome,
+currentDescription, currentValue, currentSumIncomes, currentSumExpenses,
+currentBalance) { const elemBalance = document.querySelector('#balance'); const
+elemIncomesSum = document.querySelector('#total-income'); const elemExpensesSum
+= document.querySelector('#total-expense'); elemBalance.innerHTML =
+floatFixTWO(currentBalance); elemIncomesSum.innerText =
+floatFixTWO(currentSumIncomes); elemExpensesSum.innerText = floatFixTWO(-1 *
+currentSumExpenses); addTransaction(currentExpenseOrIncome, currentDescription,
+currentValue, currentSumExpenses); } function
+addTransaction(currentExpenseOrIncome, currentDescription, currentValue,
+currentSumExpenses) { const elemIncome =
+document.querySelector('.income-items'); const elemExpense =
+document.querySelector('.expense-items'); if (currentExpenseOrIncome ===
+'income') { elemIncome.innerHTML += `
+<div data-index="${incomesArray.length - 1}" class="income-item">
+  <div class="income-left">
+    <p class="transaction-description">${currentDescription}</p>
+  </div>
+  <div class="income-right">
+    <p class="income-transaction transaction">${floatFixTWO(currentValue)}</p>
+    <div class="removeBtn">
+      <i class="fa-regular fa-circle-xmark remove-button add-red"></i>
+    </div>
+  </div>
+</div>
+`; } else if (currentExpenseOrIncome === 'expense') { elemExpense.innerHTML += `
+<div data-index="${expensesArray.length - 1}" class="expense-item">
+  <div class="expense-left">
+    <p class="transaction-description">${currentDescription}</p>
+  </div>
+  <div class="expense-right">
+    <p class="income-transaction transaction">${floatFixTWO(currentValue)}</p>
+    <div class="red-square">
+      <p class="percentage expense-transaction transaction"></p>
+    </div>
+    <div class="removeBtn">
+      <i class="fa-regular fa-circle-xmark remove-button add-red"></i>
+    </div>
+  </div>
+</div>
+`; } calculatePercentage(); totalExpensesPercentage(); } function
+handleIncomeRemove(e) { if (e.target.parentNode.classList.contains('removeBtn'))
+{ const itemToRemove = e.target.parentNode.parentNode.parentNode; const
+indexToRemove = parseInt(itemToRemove.dataset.index);
+incomesArray.splice(indexToRemove, 1); itemToRemove.remove();
+updateDataAfterRemoval(); updateIndices('.income-items .income-item',
+incomesArray); } } function handleExpenseRemove(e) { if
+(e.target.parentNode.classList.contains('removeBtn')) { const itemToRemove =
+e.target.parentNode.parentNode.parentNode; const indexToRemove =
+parseInt(itemToRemove.dataset.index); expensesArray.splice(indexToRemove, 1);
+itemToRemove.remove(); updateDataAfterRemoval(); updateIndices('.expense-items
+.expense-item', expensesArray); } } function updateDataAfterRemoval() { const
+currentSumIncomes = sumOfArray(incomesArray); const currentSumExpenses =
+sumOfArray(expensesArray); const currentBalance = balance(currentSumIncomes,
+currentSumExpenses); const elemBalance = document.querySelector('#balance');
+const elemIncomesSum = document.querySelector('#total-income'); const
+elemExpensesSum = document.querySelector('#total-expense');
+elemBalance.innerHTML = floatFixTWO(currentBalance); elemIncomesSum.innerText =
+floatFixTWO(currentSumIncomes); elemExpensesSum.innerText = floatFixTWO(-1 *
+currentSumExpenses); calculatePercentage(); totalExpensesPercentage();
+saveToLocalStorage(); } function updateIndices(selector, array) { const elements
+= document.querySelectorAll(selector); elements.forEach((element, index) => {
+element.dataset.index = index; }); } function calculatePercentage() { const
+elemListExpenses = document.querySelectorAll('.percentage');
+elemListExpenses.forEach((element, index) => { const percent =
+(expensesArray[index].trasactionValue / sumOfArray(incomesArray)) * 100;
+element.innerText = parseInt(percent) + '%'; }); } function
+totalExpensesPercentage() { const elemExpensesPercentage =
+document.querySelector('#expnesesPercentage'); const expensesPercentage =
+parseInt((sumOfArray(expensesArray) / sumOfArray(incomesArray)) * 100);
+elemExpensesPercentage.innerText = expensesPercentage + '%'; } function
+floatFixTWO(number) { return Number.parseFloat(number).toFixed(2); } function
+saveToLocalStorage() { const incomesArrayJson = JSON.stringify(incomesArray);
+const expensesArrayJson = JSON.stringify(expensesArray);
+localStorage.setItem(incomesArrayKey, incomesArrayJson);
+localStorage.setItem(expensesArrayKey, expensesArrayJson); } function
+updateDateHeader() { const monthnames = [ 'January', 'February', 'March',
+'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November',
+'December' ]; const currentDate = new Date(Date.now()); const month =
+currentDate.getMonth(); const year = currentDate.getFullYear(); const monthStr =
+monthnames[month]; document.querySelector('h4').innerText += ` ${monthStr}
+${year}`; } function toggleMode() { const mode =
+document.querySelector('#type').value; const descriptionInput =
+document.querySelector('#description'); const valueInput =
+document.querySelector('#amount'); const submitIcon =
+document.querySelector('#submitInputButton');
+descriptionInput.classList.remove('income-mode', 'expense-mode');
+valueInput.classList.remove('income-mode', 'expense-mode');
+submitIcon.classList.remove('income-mode', 'expense-mode'); if (mode ===
+'income') { descriptionInput.classList.add('income-mode');
+valueInput.classList.add('income-mode');
+submitIcon.classList.add('income-mode'); } else {
+descriptionInput.classList.add('expense-mode');
+valueInput.classList.add('expense-mode');
+submitIcon.classList.add('expense-mode'); } } });

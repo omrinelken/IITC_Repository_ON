@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="updateJson500()">btn</button>
+    <label id="alert"></label>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      function updateJson500() {
+        for (let i = 0; i <= 500; i++) {
+          let book = {
+            name: `book${i}`,
+            author: `author${i}`,
+            numPages: Math.random() * 100,
+          };
+          let user = {
+            firstName: `userFirstName${i}`,
+            lastName: `userLastName${i}`,
+            book: book,
+          };
+          const url = "http://localhost:8001/user";
+            .post(url, user)
+            .then(() => {
+              console.log("1");
+              document.querySelector("#alert").innerText = "success";
+            })
+            .catch((err) => {
+              document.querySelector("#alert").innerText = err.message;
+            });
+        }
+      }
+    </script>
+</body>
+</html>

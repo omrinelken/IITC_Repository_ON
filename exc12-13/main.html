@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="formCreate">
+        <input type="text" placeholder="firstName" name="firstName" required />
+        <input type="text" placeholder="lastName" name="lastName" required />
+        <input type="text" placeholder="bookName" name="name" required />
+        <input type="text" placeholder="author" name="author" required />
+        <input type="text" placeholder="num of pages" name="numPages" required />
+        <input type="submit" value="submit" />
+      </form>
+      <br />
+      <form id="formDelete">
+        <input type="text" placeholder="id to delete" name="idToDelete" />
+        <input type="submit" value="delete" />
+      </form>
+      <label id="success"></label>
+      <label id="failure"></label>
+      <br />
+      <button id="loadMoreButton">show 50</button>
+      <div id="data-container"></div>
+  
+      <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+      <script src="index.js"></script>
+</body>
+</html>
